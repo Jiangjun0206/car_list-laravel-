@@ -164,8 +164,8 @@ if (Helper::GeneralSiteSettings("style_footer") != 1) {
                         <?php
                         $site_title_var = "site_title_" . trans('backLang.boxCode');
                         ?>
-                        &copy; <?php echo date("Y") ?> {{ trans('frontLang.AllRightsReserved') }}
-                        . <a>{{$WebsiteSettings->$site_title_var}}</a>
+                        &copy; <?php echo date("Y") ?>  All Rights Reserved.
+                         <a>Car Collection</a>
                     </div>
                 </div>
                 <div class="col-lg-6">
