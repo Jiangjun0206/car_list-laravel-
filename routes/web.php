@@ -32,6 +32,9 @@ Auth::routes();
 Route::get('/admin', function () {
     return redirect()->route('adminHome');
 });
+// Route::get('/admin', function () {
+//     return redirect()->route('adminHome');
+// });
 
 Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
@@ -311,7 +314,9 @@ Route::Group(['prefix' => '/api/v1'], function () {
 Route::get('/sitemap.xml', 'SiteMapController@siteMap')->name('siteMap');
 Route::get('/{lang}/sitemap', 'SiteMapController@siteMap')->name('siteMapByLang');
 
-Route::get('/', 'FrontendHomeController@HomePage')->name('Home');
+// Route::get('/', 'FrontendHomeController@HomePage')->name('adminHome');
+Route::get('/', 'HomeController@index')->name('Home');
+
 // ../home url
 Route::get('/home', 'FrontendHomeController@HomePage')->name('HomePage');
 Route::get('/{lang?}/home', 'FrontendHomeController@HomePageByLang')->name('HomePageByLang');

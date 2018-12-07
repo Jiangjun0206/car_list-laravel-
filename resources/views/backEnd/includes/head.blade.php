@@ -11,6 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="Flatkit">
 <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
 <meta name="mobile-web-app-capable" content="yes">
+<!-- <link rel="shortcut icon" sizes="196x196" href="{{ URL::to('backEnd/assets/images/logo.png') }}"> -->
 <link rel="shortcut icon" sizes="196x196" href="{{ URL::to('backEnd/assets/images/logo.png') }}">
 
 <!-- style -->

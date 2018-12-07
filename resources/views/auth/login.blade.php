@@ -11,8 +11,9 @@
         <div class="navbar">
             <div class="pull-center">
                 <div>
-                    <a class="navbar-brand"><img src="{{ URL::to('backEnd/assets/images/logo.png') }}" alt="."> <span
-                                class="hidden-folded inline">{{ trans('backLang.control') }}</span></a>
+                    <!-- <a class="navbar-brand"><img src="{{ URL::to('backEnd/assets/images/logo.png') }}" alt="."> <span
+                                class="hidden-folded inline">{{ trans('backLang.control') }}</span></a> -->
+                    <a class="navbar-brand"><img style="max-height:70px!important" src="{{ URL::to('backEnd/assets/images/logo.png') }}" alt="."></a>
                 </div>
             </div>
         </div>

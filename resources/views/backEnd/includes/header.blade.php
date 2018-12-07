@@ -28,12 +28,7 @@ if (Auth::user()->connect_email != "" && Auth::user()->connect_password) {
 
         <!-- navbar right -->
         <ul class="nav navbar-nav pull-right">
-            <li class="nav-item p-t p-b">
-                <a class="btn btn-sm info marginTop2" href="{{ route("Home") }}" target="_blank"
-                   title="{{ trans('backLang.sitePreview') }}">
-                    <i class="material-icons">&#xe895;</i> {{ trans('backLang.sitePreview') }}
-                </a>
-            </li>
+           
             <?php
             $alerts = count(Helper::webmailsAlerts()) + count(Helper::eventsAlerts());
             ?>
