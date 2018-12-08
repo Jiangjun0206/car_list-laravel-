@@ -11,6 +11,15 @@ use App\Section;
 use App\Topic;
 use App\Webmail;
 use App\WebmasterSection;
+
+use App\Banner;
+use App\Comment;
+use App\Menu;
+use App\Setting;
+use App\TopicCategory;
+use App\User;
+use App\WebmasterSetting;
+
 use Auth;
 use Illuminate\Http\Request;
 
@@ -223,11 +232,18 @@ class HomeController extends Controller
             }
             $TodayVisitorsRate = $TodayVisitorsRate . $fsla . "[$ii,$TotalV]";
         }
+        $WebmasterSettings = WebmasterSetting::find(1);
+        //home topic
+        $HomeTopics = Topic::where([['status', 1], ['webmaster_id', $WebmasterSettings->home_content1_section_id], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orwhere([['status', 1], ['webmaster_id', $WebmasterSettings->home_content1_section_id], ['expire_date', null]])->orderby('row_no', 'asc')->limit(3)->get();
+
+        // home photos
+        $HomePhotos = Topic::where([['status', 1], ['webmaster_id', $WebmasterSettings->home_content2_section_id], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orwhere([['status', 1], ['webmaster_id', $WebmasterSettings->home_content2_section_id], ['expire_date', null]])->orderby('row_no', 'asc')->limit(6)->get();
+
 
         return view('backEnd.home',
             compact("GeneralWebmasterSections", "Webmails", "Events", "Contacts", "TodayVisitors", "TodayPages",
                 "Last7DaysVisitors", "TodayByCountry", "TodayByBrowser1", "TodayByBrowser1_val", "TodayByBrowser2",
-                "TodayByBrowser2_val", "TodayVisitorsRate"));
+                "TodayByBrowser2_val","HomeTopics", "HomePhotos","TodayVisitorsRate"));
     }
 
     /**

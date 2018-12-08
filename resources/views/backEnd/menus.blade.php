@@ -69,6 +69,7 @@ $edt_title = "";
             <div>
                 <div class="nav-active-white">
                     <ul class="nav nav-pills nav-stacked nav-sm b-b">
+                       
                         <li class="nav-item">
                             <ul class="list p-b-1" style="list-style: none;">
                                 <?php

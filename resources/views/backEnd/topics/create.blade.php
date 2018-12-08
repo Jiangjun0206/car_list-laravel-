@@ -139,17 +139,7 @@
                     {!! Form::hidden('section_id','0') !!}
                 @endif
 
-                @if(Helper::GeneralWebmasterSettings("ar_box_status"))
-                    <div class="form-group row">
-                        <label for="title_ar"
-                               class="col-sm-2 form-control-label">{!!  trans('backLang.topicName') !!}
-                            @if(Helper::GeneralWebmasterSettings("ar_box_status") && Helper::GeneralWebmasterSettings("en_box_status")){!!  trans('backLang.arabicBox') !!}@endif
-                        </label>
-                        <div class="col-sm-10">
-                            {!! Form::text('title_ar','', array('placeholder' => '','class' => 'form-control','id'=>'title_ar','required'=>'', 'dir'=>trans('backLang.rtl'))) !!}
-                        </div>
-                    </div>
-                @endif
+                 
                 @if(Helper::GeneralWebmasterSettings("en_box_status"))
                     <div class="form-group row">
                         <label for="title_en"
@@ -165,19 +155,7 @@
                 @if($WebmasterSection->longtext_status)
 
                     @if($WebmasterSection->editor_status)
-                        @if(Helper::GeneralWebmasterSettings("ar_box_status"))
-                            <div class="form-group row">
-                                <label for="details_ar"
-                                       class="col-sm-2 form-control-label">{!!  trans('backLang.bannerDetails') !!}
-                                    @if(Helper::GeneralWebmasterSettings("ar_box_status") && Helper::GeneralWebmasterSettings("en_box_status")){!!  trans('backLang.arabicBox') !!}@endif
-                                </label>
-                                <div class="col-sm-10">
-                                    <div class="box p-a-xs">
-                                        {!! Form::textarea('details_ar','<div dir=rtl><br></div>', array('ui-jp'=>'summernote','placeholder' => '','class' => 'form-control summernote', 'dir'=>trans('backLang.rtl'),'ui-options'=>'{height: 300}')) !!}
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
+                      
                         @if(Helper::GeneralWebmasterSettings("en_box_status"))
                             <div class="form-group row">
                                 <label for="details_en"
@@ -192,17 +170,7 @@
                             </div>
                         @endif
                     @else
-                        @if(Helper::GeneralWebmasterSettings("ar_box_status"))
-                            <div class="form-group row">
-                                <label for="details_ar"
-                                       class="col-sm-2 form-control-label">{!!  trans('backLang.bannerDetails') !!}
-                                    @if(Helper::GeneralWebmasterSettings("ar_box_status") && Helper::GeneralWebmasterSettings("en_box_status")){!!  trans('backLang.arabicBox') !!}@endif
-                                </label>
-                                <div class="col-sm-10">
-                                    {!! Form::textarea('details_ar','', array('placeholder' => '','class' => 'form-control', 'dir'=>trans('backLang.rtl'),'rows'=>'5')) !!}
-                                </div>
-                            </div>
-                        @endif
+                      
                         @if(Helper::GeneralWebmasterSettings("en_box_status"))
                             <div class="form-group row">
                                 <label for="details_en"
