@@ -318,7 +318,11 @@ Route::get('/{lang}/sitemap', 'SiteMapController@siteMap')->name('siteMapByLang'
 Route::get('/', 'HomeController@index')->name('Home');
 
 // ../home url
-Route::get('/home', 'FrontendHomeController@HomePage')->name('HomePage');
+// Route::get('/home', 'FrontendHomeController@HomePage')->name('HomePage');
+// home->login
+Route::get('/home', function(){
+    return redirect()->route('adminHome');
+});
 Route::get('/{lang?}/home', 'FrontendHomeController@HomePageByLang')->name('HomePageByLang');
 // ../subscribe to newsletter submit  (ajax url)
 Route::post('/subscribe', 'FrontendHomeController@subscribeSubmit')->name('subscribeSubmit');

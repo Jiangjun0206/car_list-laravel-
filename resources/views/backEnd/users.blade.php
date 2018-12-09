@@ -1,9 +1,7 @@
 @extends('backEnd.layout')
 
 @section('content')
-    @if(@Auth::user()->permissionsGroup->webmaster_status)
-        @include('backEnd.users.permissions.view')
-    @endif
+    
 
     <div class="padding">
         <div class="box">
@@ -59,6 +57,7 @@
                             </th>
                             <th>{{ trans('backLang.fullName') }}</th>
                             <th>{{ trans('backLang.loginEmail') }}</th>
+                            <th>Phone</th>
                             <th>{{ trans('backLang.Permission') }}</th>
                             <th class="text-center" style="width:50px;">{{ trans('backLang.status') }}</th>
                             <th class="text-center" style="width:200px;">{{ trans('backLang.options') }}</th>
@@ -80,6 +79,9 @@
 
                                 <td>
                                     <small>{!! $User->email   !!}</small>
+                                </td>
+                                <td>
+                                    <small>{!! $User->phone  !!}</small>
                                 </td>
                                 <td>
                                     <small>{{$User->permissionsGroup->name}}</small>
@@ -207,6 +209,9 @@
             @endif
         </div>
     </div>
+    @if(@Auth::user()->permissionsGroup->webmaster_status)
+        @include('backEnd.users.permissions.view')
+    @endif
 @endsection
 @section('footerInclude')
     <script type="text/javascript">

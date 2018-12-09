@@ -96,13 +96,14 @@ class UsersController extends Controller
             $request->file($formFileName)->move($path, $fileFinalName_ar);
         }
         // End of Upload Files
-
+       
         $User = new User;
         $User->name = $request->name;
         $User->email = $request->email;
         $User->password = bcrypt($request->password);
         $User->permissions_id = $request->permissions_id;
         $User->photo = $fileFinalName_ar;
+        $user->phone = $request->phone;
         $User->connect_email = $request->connect_email;
         $User->connect_password = $request->connect_password;
         $User->status = 1;
