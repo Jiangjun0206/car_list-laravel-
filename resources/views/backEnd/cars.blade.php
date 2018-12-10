@@ -81,7 +81,9 @@
                                 </td>
                                 <td><img src="/uploads/cars/{!! $Car->image  !!}" alt="" width="40px" height="40px" style="border-radius:3em"></td>
                                 <td>
-                                    {!! $Car->delivery_data   !!}
+                                 
+                                        {!! $Car->delivery_data   !!}
+                               
                                 </td>
 
                                 <td>
@@ -97,13 +99,24 @@
                                     <small>{!! $Car->destination  !!}</small>
                                 </td>
                                 <td>
-                                    <small>{!! $Car->title  !!}</small>
+                                    <small>
+                                    @if($Car->title==1)
+                                        YES
+                                    @else
+                                        NO
+                                    @endif</small>
                                 </td>
                                 <td>
-                                    <small>{!! $Car->key  !!}</small>
+                                    <small>
+                                    @if($Car->key==1)
+                                        YES
+                                    @else
+                                        NO
+                                    @endif
+                                    </small>
                                 </td>
                                 <td>
-                                    <small>{!! $Car->price  !!}</small>
+                                    <small>$  {!! $Car->price  !!}</small>
                                 </td>
                                 <td>
                                     <small>{!! $Car->status  !!}</small>
@@ -116,13 +129,13 @@
     
                                 <td class="text-center">
                                     <a class="btn btn-sm success"
-                                       href="{{ route("carsEdit",["id"=>$Car->car_id]) }}">
+                                       href="{{ route("carsEdit",["id"=>$Car->id]) }}">
                                         <small><i class="material-icons">&#xe3c9;</i> {{ trans('backLang.edit') }}
                                         </small>
                                     </a>
                                     @if(@Auth::user()->permissionsGroup->webmaster_status)
                                         <button class="btn btn-sm warning" data-toggle="modal"
-                                                data-target="#m-{{ $Car->car_id }}" ui-toggle-class="bounce"
+                                                data-target="#m-{{ $Car->id }}" ui-toggle-class="bounce"
                                                 ui-target="#animate">
                                             <small><i class="material-icons">&#xe872;</i> {{ trans('backLang.delete') }}
                                             </small>
@@ -133,7 +146,7 @@
                                 </td>
                             </tr>
                             <!-- .modal -->
-                            <div id="m-{{ $Car->car_id }}" class="modal fade" data-backdrop="true">
+                            <div id="m-{{ $Car->id }}" class="modal fade" data-backdrop="true">
                                 <div class="modal-dialog" id="animate">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -149,7 +162,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
                                                     data-dismiss="modal">{{ trans('backLang.no') }}</button>
-                                            <a href="{{ route("carsDestroy",["id"=>$Car->car_id]) }}"
+                                            <a href="{{ route("carsDestroy",["id"=>$Car->id]) }}"
                                                class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
                                         </div>
                                     </div><!-- /.modal-content -->

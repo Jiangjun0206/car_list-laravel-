@@ -22,10 +22,10 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
 
                 <ul class="nav" ui-nav>
                 <li class=""><a style="font-size:16px" href="{{ route('users') }}"><span class="nav-icon"><i class="material-icons fa fa-user"></i></span><span style="padding-top:7%" class="nav-text"> Users</span></a></li>
-                <li class=""><a style="font-size:16px" href="{{ route('topics',8) }}"><span class="nav-icon"><i class="material-icons fa fa-car"></i></span><span style="padding-top:7%" class="nav-text"> Cars</span></a></li>
+                <li class=""><a style="font-size:16px" href="{{ route('cars') }}"><span class="nav-icon"><i class="material-icons fa fa-car"></i></span><span style="padding-top:7%" class="nav-text"> Cars</span></a></li>
                 <li class=""><a style="font-size:16px" href="{{route('topics',7)}}"><span class="nav-icon"><i class="material-icons fa fa-bank"></i></span><span style="padding-top:7%" class="nav-text"> Containers</span></a></li>
                 
-                <li>
+                <!-- <li>
                     <a><span class="nav-caret"><i class="fa fa-caret-down"></i></span>
                         <span class="nav-icon"><i class="fa fa-car"></i></span><span class="nav-text">Cars</span>
                     </a>
@@ -50,7 +50,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             <a style="font-size:16px" href="{{ route('sections',7) }}"><i class="fa fa-navicon"> </i> &nbsp;Cars fields</a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 </ul>
             </nav>
         </div>

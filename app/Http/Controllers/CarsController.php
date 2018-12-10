@@ -47,7 +47,7 @@ class CarsController extends Controller
                 'asc')->paginate(env('BACKEND_PAGINATION'));
                 $Permissions = Permissions::where('created_by', '=', Auth::user()->id)->orderby('id', 'asc')->get();
             } else {
-            $Cars = Car::orderby('car_id', 'asc')->paginate(env('BACKEND_PAGINATION'));
+            $Cars = Car::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
         return view("backEnd.cars", compact("Cars", "Permissions", "GeneralWebmasterSections"));
@@ -64,9 +64,9 @@ class CarsController extends Controller
         // General for all pages
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
-        $Permissions = Permissions::orderby('id', 'asc')->get();
+        $Users = User::orderby('id', 'asc')->get();
 
-        return view("backEnd.cars.create", compact("GeneralWebmasterSections", "Permissions"));
+        return view("backEnd.cars.create", compact("GeneralWebmasterSections", "Users"));
     }
 
     /**
@@ -79,16 +79,20 @@ class CarsController extends Controller
     {
         //
         $this->validate($request, [
-            'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-            'permissions_id' => 'required'
+            'image' => 'mimes:png,jpeg,jpg,gif|max:3000',
+            'vin' => 'required',
+            // 'status' => 'required|email|unique:users',
+            'terminal' => 'required',
+            'user_id' => 'required',
+            'vin' =>'required',
+            'description'=>'required',
+            'status' =>'required'
+
         ]);
 
 
         // Start of Upload Files
-        $formFileName = "photo";
+        $formFileName = "image";
         $fileFinalName_ar = "";
         if ($request->$formFileName != "") {
             $fileFinalName_ar = time() . rand(1111,
@@ -98,20 +102,21 @@ class CarsController extends Controller
         }
         // End of Upload Files
        
-        $User = new User;
-        $User->name = $request->name;
-        $User->email = $request->email;
-        $User->password = bcrypt($request->password);
-        $User->permissions_id = $request->permissions_id;
-        $User->photo = $fileFinalName_ar;
-        $User->phone = $request->phone;
-        $User->connect_email = $request->connect_email;
-        $User->connect_password = $request->connect_password;
-        $User->status = 1;
-        $User->created_by = Auth::user()->id;
-        $User->save();
+        $Car = new car;
+        $Car->vin = $request->vin;
+        $Car->description = $request->description;
+        $Car->destination = $request->destination;
+        $Car->user_id = $request->user_id;
+        $Car->title = $request->title;
+        $Car->key = $request->key;
+        $Car->price = $request->price;
+        $Car->status = $request->status;
+        $Car->terminal = $request->terminal;
+        $Car->image = $fileFinalName_ar;
+        $Car->delivery_data = $request->delivery_data;
+         $Car->save();
 
-        return redirect()->action('UsersController@index')->with('doneMessage', trans('backLang.addDone'));
+        return redirect()->action('CarsController@index')->with('doneMessage', trans('backLang.addDone'));
     }
 
     public function getUploadPath()
@@ -134,19 +139,18 @@ class CarsController extends Controller
     {
         //
         // General for all pages
-        $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
+        // $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
-        $Permissions = Permissions::orderby('id', 'asc')->get();
-
-        if (@Auth::user()->permissionsGroup->view_status) {
+        $Users = User::orderby('id', 'asc')->get();
+         if (@Auth::user()->permissionsGroup->view_status) {
             $Users = User::where('created_by', '=', Auth::user()->id)->orwhere('id', '=', Auth::user()->id)->find($id);
         } else {
-            $Users = User::find($id);
+            $Cars = Car::find($id);
         }
-        if (count($Users) > 0) {
-            return view("backEnd.users.edit", compact("Users", "Permissions", "GeneralWebmasterSections"));
+        if (count($Cars) > 0) {
+            return view("backEnd.cars.edit", compact("Cars", "Users", "GeneralWebmasterSections"));
         } else {
-            return redirect()->action('UsersController@index');
+            return redirect()->action('CarsController@index');
         }
     }
 
@@ -160,23 +164,23 @@ class CarsController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $User = User::find($id);
-        if (count($User) > 0) {
+        $Car = Car::find($id);
+        if (count($Car) > 0) {
 
 
             $this->validate($request, [
-                'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
-                'name' => 'required',
-                'permissions_id' => 'required'
+                'image' => 'mimes:png,jpeg,jpg,gif|max:3000',
+                'vin' => 'required',
+                'description' => 'required',
+                'terminal' => 'required',
+                'user_id' => 'required',
+                'vin' =>'required',
+                'status' =>'required'
             ]);
 
-            if ($request->email != $User->email) {
-                $this->validate($request, [
-                    'email' => 'required|email|unique:users',
-                ]);
-            }
+            
             // Start of Upload Files
-            $formFileName = "photo";
+            $formFileName = "image";
             $fileFinalName_ar = "";
             if ($request->$formFileName != "") {
                 $fileFinalName_ar = time() . rand(1111,
@@ -185,44 +189,44 @@ class CarsController extends Controller
                 $request->file($formFileName)->move($path, $fileFinalName_ar);
             }
             // End of Upload Files
-
             //if ($id != 1) {
-                $User->phone = $request->phone;
-                $User->name = $request->name;
-                $User->email = $request->email;
-                if ($request->password != "") {
-                    $User->password = bcrypt($request->password);
-                }
-                $User->permissions_id = $request->permissions_id;
+                $Car->vin = $request->vin;
+                $Car->description = $request->description;
+                $Car->destination = $request->destination;
+                $Car->user_id = $request->user_id;
+                $Car->title = $request->title;
+                $Car->key = $request->key;
+                $Car->price = $request->price;
+                $Car->status = $request->status;
+                $Car->terminal = $request->terminal;
+                $Car->image = $fileFinalName_ar;
+                $Car->delivery_data = $request->delivery_data;
+              
+               
             //}
-            if ($request->photo_delete == 1) {
-                // Delete a User file
-                if ($User->photo != "") {
-                    File::delete($this->getUploadPath() . $User->photo);
-                }
+            // if ($request->image_delete == 1) {
+            //     // Delete a User file
+            //     if ($Car->image != "") {
+            //         File::delete($this->getUploadPath() . $Car->image);
+            //     }
 
-                $User->photo = "";
-            }
-            if ($fileFinalName_ar != "") {
-                // Delete a User file
-                if ($User->photo != "") {
-                    File::delete($this->getUploadPath() . $User->photo);
-                }
+            //     $Car->image = "";
+            // }
+            // if ($fileFinalName_ar != "") {
+            //     // Delete a User file
+            //     if ($Car->image != "") {
+            //         File::delete($this->getUploadPath() . $Car->image);
+            //     }
 
-                $User->photo = $fileFinalName_ar;
-            }
+            //     $Car->image = $fileFinalName_ar;
+            // }
 
-            $User->connect_email = $request->connect_email;
-            if ($request->connect_password != "") {
-                $User->connect_password = $request->connect_password;
-            }
+            $Car->image = $fileFinalName_ar;
 
-            $User->status = $request->status;
-            $User->updated_by = Auth::user()->id;
-            $User->save();
-            return redirect()->action('UsersController@edit', $id)->with('doneMessage', trans('backLang.saveDone'));
+            $Car->save();
+            return redirect()->action('CarsController@edit', $id)->with('doneMessage', trans('backLang.saveDone'));
         } else {
-            return redirect()->action('UsersController@index');
+            return redirect()->action('CarsController@index');
         }
     }
 
@@ -238,18 +242,18 @@ class CarsController extends Controller
         if (@Auth::user()->permissionsGroup->view_status) {
             $User = User::where('created_by', '=', Auth::user()->id)->find($id);
         } else {
-            $User = User::find($id);
+            $Car = Car::find($id);
         }
-        if (count($User) > 0 && $id != 1) {
+        if (count($Car) > 0 && $id != 1) {
             // Delete a User photo
-            if ($User->photo != "") {
-                File::delete($this->getUploadPath() . $User->photo);
+            if ($Car->image != "") {
+                File::delete($this->getUploadPath() . $Car->image);
             }
 
-            $User->delete();
-            return redirect()->action('UsersController@index')->with('doneMessage', trans('backLang.deleteDone'));
+            $Car->delete();
+            return redirect()->action('CarsController@index')->with('doneMessage', trans('backLang.deleteDone'));
         } else {
-            return redirect()->action('UsersController@index');
+            return redirect()->action('CarsController@index');
         }
     }
 
