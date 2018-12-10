@@ -119,8 +119,18 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/{webmasterId}/sections/{id}/seo', 'SectionsController@seo')->name('sectionsSEOUpdate');
     Route::get('/{webmasterId}/sections/destroy/{id}', 'SectionsController@destroy')->name('sectionsDestroy');
     Route::post('/{webmasterId}/sections/updateAll', 'SectionsController@updateAll')->name('sectionsUpdateAll');
-
+    
+    //Cars 
+    Route::get('/cars/create/', 'CarsController@create')->name('carsCreate');
+    Route::post('/cars/store', 'CarsController@store')->name('carsStore');
+    Route::get('/cars/{id}/edit', 'CarsController@edit')->name('carsEdit');
+    Route::post('/cars/{id}/update', 'CarsController@update')->name('carsUpdate');
+    Route::get('/cars/destroy/{id}', 'CarsController@destroy')->name('carsDestroy');
+    Route::post('/cars/updateAll', 'CarsController@updateAll')->name('carsUpdateAll');
+    Route::get('/carscategory','CarsController@catogoryshow')->name('carsCategory');
+    Route::get('/cars','CarsController@index')->name('cars');
     // Topics
+
     Route::get('/{webmasterId}/topics', 'TopicsController@index')->name('topics');
     Route::get('/{webmasterId}/topics/create', 'TopicsController@create')->name('topicsCreate');
     Route::post('/{webmasterId}/topics/store', 'TopicsController@store')->name('topicsStore');

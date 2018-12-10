@@ -56,6 +56,8 @@ class SectionsController extends Controller
         return view("backEnd.sections", compact("Sections", "GeneralWebmasterSections", "WebmasterSection"));
     }
 
+ 
+
     /**
      * Show the form for creating a new resource.
      *

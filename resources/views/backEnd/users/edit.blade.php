@@ -49,6 +49,14 @@
                         {!! Form::text('password','', array('placeholder' => '','class' => 'form-control','id'=>'password')) !!}
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label for="phone"
+                           class="col-sm-2 form-control-label">Phone Number
+                    </label>
+                    <div class="col-sm-10">
+                        {!! Form::text('phone',$Users->phone, array('placeholder' => '','class' => 'form-control','id'=>'phone')) !!}
+                    </div>
+                </div>
 
                 <div class="form-group row">
                     <label for="photo_file"

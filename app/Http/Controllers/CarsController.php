@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Permissions;
 use App\User;
+use App\Car;
 use App\WebmasterSection;
 use Auth;
 use File;
@@ -12,10 +13,10 @@ use Illuminate\Config;
 use Illuminate\Http\Request;
 use Redirect;
 
-class UsersController extends Controller
+class CarsController extends Controller
 {
 
-    private $uploadPath = "uploads/users/";
+    private $uploadPath = "uploads/cars/";
 
     // Define Default Variables
 
@@ -42,14 +43,14 @@ class UsersController extends Controller
         // General END
 
         if (@Auth::user()->permissionsGroup->view_status) {
-            $Users = User::where('created_by', '=', Auth::user()->id)->orwhere('id', '=', Auth::user()->id)->orderby('id',
+            $Cars = Car::where('user_id', '=', Auth::user()->id)->orwhere('user_id', '=', Auth::user()->id)->orderby('car_id',
                 'asc')->paginate(env('BACKEND_PAGINATION'));
-            $Permissions = Permissions::where('created_by', '=', Auth::user()->id)->orderby('id', 'asc')->get();
-        } else {
-            $Users = User::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
+                $Permissions = Permissions::where('created_by', '=', Auth::user()->id)->orderby('id', 'asc')->get();
+            } else {
+            $Cars = Car::orderby('car_id', 'asc')->paginate(env('BACKEND_PAGINATION'));
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
-        return view("backEnd.users", compact("Users", "Permissions", "GeneralWebmasterSections"));
+        return view("backEnd.cars", compact("Cars", "Permissions", "GeneralWebmasterSections"));
     }
 
     /**
@@ -65,7 +66,7 @@ class UsersController extends Controller
         // General END
         $Permissions = Permissions::orderby('id', 'asc')->get();
 
-        return view("backEnd.users.create", compact("GeneralWebmasterSections", "Permissions"));
+        return view("backEnd.cars.create", compact("GeneralWebmasterSections", "Permissions"));
     }
 
     /**

@@ -7,26 +7,26 @@
         <div class="box">
 
             <div class="box-header dker">
-                <h3>{{ trans('backLang.users') }}</h3>
+                <h3>Cars</h3>
                 <small>
                     <a href="{{ route('adminHome') }}">{{ trans('backLang.home') }}</a> /
                     <a href="">{{ trans('backLang.settings') }}</a>
                 </small>
             </div>
 
-            @if($Users->total() >0)
+            @if($Cars->total() >0)
                 @if(@Auth::user()->permissionsGroup->webmaster_status)
                     <div class="row p-a pull-right" style="margin-top: -70px;">
                         <div class="col-sm-12">
-                            <a class="btn btn-fw primary" href="{{route("usersCreate")}}">
-                                <i class="material-icons">&#xe7fe;</i>
-                                &nbsp; {{ trans('backLang.newUser') }}
+                            <a class="btn btn-fw primary" href="{{route("carsCreate")}}">
+                                <i class="fa fa-plus" style="font-size:70%"></i> <i class="fa fa-car"></i>
+                                &nbsp; New Car
                             </a>
                         </div>
                     </div>
                 @endif
             @endif
-            @if($Users->total() == 0)
+            @if($Cars->total() == 0)
                 <div class="row p-a">
                     <div class="col-sm-12">
                         <div class=" p-a text-center ">
@@ -34,9 +34,9 @@
                             <br>
                             @if(@Auth::user()->permissionsGroup->webmaster_status)
                                 <br>
-                                <a class="btn btn-fw primary" href="{{route("usersCreate")}}">
-                                    <i class="material-icons">&#xe7fe;</i>
-                                    &nbsp; {{ trans('backLang.newUser') }}
+                                <a class="btn btn-fw primary" href="{{route("carsCreate")}}">
+                                    <i class="fa fa-car"></i> 
+                                    &nbsp; New Car
                                 </a>
                             @endif
                         </div>
@@ -44,8 +44,8 @@
                 </div>
             @endif
 
-            @if($Users->total() > 0)
-                {{Form::open(['route'=>'usersUpdateAll','method'=>'post'])}}
+            @if($Cars->total() > 0)
+                {{Form::open(['route'=>'carsUpdateAll','method'=>'post'])}}
                 <div class="table-responsive">
                     <table class="table table-striped  b-t">
                         <thead>
@@ -55,51 +55,74 @@
                                     <input id="checkAll" type="checkbox"><i></i>
                                 </label>
                             </th>
-                            <th>Profile Image</th>
-                            <th>{{ trans('backLang.fullName') }}</th>
-                            <th>{{ trans('backLang.loginEmail') }}</th>
-                            <th>Phone</th>
-                            <th>{{ trans('backLang.Permission') }}</th>
-                            <th class="text-center" style="width:50px;">{{ trans('backLang.status') }}</th>
+                            <th>Car Image</th>
+                            <th>Delivery Date</th>
+                            <th>Description</th>
+                            <th>VIN</th>
+                            <th>Client Name</th>
+                            <th>Destination</th>
+                            <th>Title</th>
+                            <th>Keys</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Terminal</th>
                             <th class="text-center" style="width:200px;">{{ trans('backLang.options') }}</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        @foreach($Users as $User)
+                        @foreach($Cars as $Car)
                             <tr>
                                 <td><label class="ui-check m-a-0">
-                                        <input type="checkbox" name="ids[]" value="{{ $User->id }}"><i
+                                        <input type="checkbox" name="ids[]" value="{{ $Car->car_id }}"><i
                                                 class="dark-white"></i>
-                                        {!! Form::hidden('row_ids[]',$User->id, array('class' => 'form-control row_no')) !!}
+                                        {!! Form::hidden('row_ids[]',$Car->car_id, array('class' => 'form-control row_no')) !!}
                                     </label>
                                 </td>
-                                <td><img src="/uploads/users/{!! $User->photo  !!}" alt="" width="40px" height="40px" style="border-radius:3em"></td>
+                                <td><img src="/uploads/cars/{!! $Car->image  !!}" alt="" width="40px" height="40px" style="border-radius:3em"></td>
                                 <td>
-                                    {!! $User->name   !!}
+                                    {!! $Car->delivery_data   !!}
                                 </td>
 
                                 <td>
-                                    <small>{!! $User->email   !!}</small>
+                                    <small>{!! $Car->description   !!}</small>
                                 </td>
                                 <td>
-                                    <small>{!! $User->phone  !!}</small>
+                                    <small>{!! $Car->vin  !!}</small>
                                 </td>
                                 <td>
-                                    <small>{{$User->permissionsGroup->name}}</small>
+                                    <small>{!! $Car->user_id  !!}</small>
                                 </td>
-                                <td class="text-center">
-                                    <i class="fa {{ ($User->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
+                                <td>
+                                    <small>{!! $Car->destination  !!}</small>
                                 </td>
+                                <td>
+                                    <small>{!! $Car->title  !!}</small>
+                                </td>
+                                <td>
+                                    <small>{!! $Car->key  !!}</small>
+                                </td>
+                                <td>
+                                    <small>{!! $Car->price  !!}</small>
+                                </td>
+                                <td>
+                                    <small>{!! $Car->status  !!}</small>
+                                </td>
+                                <td>
+                                    <small>{!! $Car->terminal  !!}</small>
+                                </td>
+                            
+                               
+    
                                 <td class="text-center">
                                     <a class="btn btn-sm success"
-                                       href="{{ route("usersEdit",["id"=>$User->id]) }}">
+                                       href="{{ route("carsEdit",["id"=>$Car->car_id]) }}">
                                         <small><i class="material-icons">&#xe3c9;</i> {{ trans('backLang.edit') }}
                                         </small>
                                     </a>
                                     @if(@Auth::user()->permissionsGroup->webmaster_status)
                                         <button class="btn btn-sm warning" data-toggle="modal"
-                                                data-target="#m-{{ $User->id }}" ui-toggle-class="bounce"
+                                                data-target="#m-{{ $Car->car_id }}" ui-toggle-class="bounce"
                                                 ui-target="#animate">
                                             <small><i class="material-icons">&#xe872;</i> {{ trans('backLang.delete') }}
                                             </small>
@@ -110,7 +133,7 @@
                                 </td>
                             </tr>
                             <!-- .modal -->
-                            <div id="m-{{ $User->id }}" class="modal fade" data-backdrop="true">
+                            <div id="m-{{ $Car->car_id }}" class="modal fade" data-backdrop="true">
                                 <div class="modal-dialog" id="animate">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -120,13 +143,13 @@
                                             <p>
                                                 {{ trans('backLang.confirmationDeleteMsg') }}
                                                 <br>
-                                                <strong>[ {{ $User->name }} ]</strong>
+                                                <strong>[ {{ $Car->vin }} ]</strong>
                                             </p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
                                                     data-dismiss="modal">{{ trans('backLang.no') }}</button>
-                                            <a href="{{ route("usersDestroy",["id"=>$User->id]) }}"
+                                            <a href="{{ route("carsDestroy",["id"=>$Car->car_id]) }}"
                                                class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
                                         </div>
                                     </div><!-- /.modal-content -->
@@ -183,12 +206,12 @@
                         </div>
 
                         <div class="col-sm-3 text-center">
-                            <small class="text-muted inline m-t-sm m-b-sm">{{ trans('backLang.showing') }} {{ $Users->firstItem() }}
-                                -{{ $Users->lastItem() }} {{ trans('backLang.of') }}
-                                <strong>{{ $Users->total()  }}</strong> {{ trans('backLang.records') }}</small>
+                            <small class="text-muted inline m-t-sm m-b-sm">{{ trans('backLang.showing') }} {{ $Cars->firstItem() }}
+                                -{{ $Cars->lastItem() }} {{ trans('backLang.of') }}
+                                <strong>{{ $Cars->total()  }}</strong> {{ trans('backLang.records') }}</small>
                         </div>
                         <div class="col-sm-6 text-right text-center-xs">
-                            {!! $Users->links() !!}
+                            {!! $Cars->links() !!}
                         </div>
                     </div>
                 </footer>
