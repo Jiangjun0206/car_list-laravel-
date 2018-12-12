@@ -129,6 +129,16 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/cars/updateAll', 'CarsController@updateAll')->name('carsUpdateAll');
     Route::get('/carscategory','CarsController@catogoryshow')->name('carsCategory');
     Route::get('/cars','CarsController@index')->name('cars');
+
+    //Containers
+    Route::get('/containers/create/', 'ContainersController@create')->name('containersCreate');
+    Route::post('/containers/store', 'ContainersController@store')->name('containersStore');
+    Route::get('/containers/{id}/edit', 'ContainersController@edit')->name('containersEdit');
+    Route::post('/containers/{id}/update', 'ContainersController@update')->name('containersUpdate');
+    Route::get('/containers/destroy/{id}', 'ContainersController@destroy')->name('containersDestroy');
+    Route::post('/containers/updateAll', 'ContainersController@updateAll')->name('containersUpdateAll');
+    Route::get('/containerscategory','ContainersController@catogoryshow')->name('containersCategory');
+    Route::get('/containers','ContainersController@index')->name('containers');
     // Topics
 
     Route::get('/{webmasterId}/topics', 'TopicsController@index')->name('topics');

@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Permissions;
 use App\User;
 use App\Car;
+use App\Container;
 use App\WebmasterSection;
 use Auth;
 use File;
@@ -13,10 +14,10 @@ use Illuminate\Config;
 use Illuminate\Http\Request;
 use Redirect;
 
-class CarsController extends Controller
+class ContainersController extends Controller
 {
 
-    private $uploadPath = "uploads/cars/";
+    private $uploadPath = "uploads/containers/";
 
     // Define Default Variables
 
@@ -42,16 +43,15 @@ class CarsController extends Controller
         // $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
 
+        // fixable part
         if (@Auth::user()->permissionsGroup->view_status) {
-            $Cars = Car::where('user_id', '=', Auth::user()->id)->orwhere('user_id', '=', Auth::user()->id)->orderby('id',
+            $Containers = Container::where('user_id', '=', Auth::user()->id)->orwhere('user_id', '=', Auth::user()->id)->orderby('car_id',
                 'asc')->paginate(env('BACKEND_PAGINATION'));
                 $Permissions = Permissions::where('created_by', '=', Auth::user()->id)->orderby('id', 'asc')->get();
             } else {
-            $Cars = Car::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
-            $Permissions = Permissions::orderby('id', 'asc')->get();
-
-        }
-        return view("backEnd.cars", compact("Cars", "Permissions", "GeneralWebmasterSections"));
+            $Containers = Container::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
+         }
+        return view("backEnd.containers", compact("Containers", "GeneralWebmasterSections"));
     }
 
     /**
@@ -67,7 +67,7 @@ class CarsController extends Controller
         // General END
         $Users = User::orderby('id', 'asc')->get();
 
-        return view("backEnd.cars.create", compact("GeneralWebmasterSections", "Users"));
+        return view("backEnd.containers.create", compact("GeneralWebmasterSections", "Users"));
     }
 
     /**
@@ -271,18 +271,18 @@ class CarsController extends Controller
         //
       if ($request->action == "delete") {
             // Delete User photo
-            $Cars = Car::wherein('id', $request->ids)->where('id', '!=', 1)->get();
-            foreach ($Cars as $Car) {
-                if ($Car->image != "") {
-                    File::delete($this->getUploadPath() . $Car->image);
+            $Containers = Container::wherein('id', $request->ids)->where('id', '!=', 1)->get();
+            foreach ($Containers as $Container) {
+                if ($Container->image != "") {
+                    File::delete($this->getUploadPath() . $Container->image);
                 }
             }
 
-            Car::wherein('id', $request->ids)->where('id', "!=", 1)
+            Container::wherein('id', $request->ids)->where('id', "!=", 1)
                 ->delete();
 
         }
-        return redirect()->action('CarsController@index')->with('doneMessage', trans('backLang.saveDone'));
+        return redirect()->action('ContainersController@index')->with('doneMessage', trans('backLang.saveDone'));
     }
 
 
