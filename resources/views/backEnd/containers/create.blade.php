@@ -48,6 +48,19 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="user_name"
+                           class="col-sm-1 form-control-label">Car VIN : </label>
+                    <div class="col-sm-11">
+                        <select name="car_id" id="car_id" required class="form-control c-select">
+                            <option value="">- - Car VIN - -</option>
+                            @foreach ($Cars as $Car)
+                                <option value="{{ $Car->id  }}">{{ $Car->vin }}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="details"
                            class="col-sm-1 form-control-label">Details
                     </label>

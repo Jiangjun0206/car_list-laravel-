@@ -136,7 +136,7 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/containers/{id}/edit', 'ContainersController@edit')->name('containersEdit');
     Route::post('/containers/{id}/update', 'ContainersController@update')->name('containersUpdate');
     Route::get('/containers/destroy/{id}', 'ContainersController@destroy')->name('containersDestroy');
-    Route::post('/containers/updateAll', 'ContainersController@updateAll')->name('containersUpdateAll');
+    Route::post('/containers/updateAll', 'ContainersController@updateAll')->name('ContainersUpdateAll');
     Route::get('/containerscategory','ContainersController@catogoryshow')->name('containersCategory');
     Route::get('/containers','ContainersController@index')->name('containers');
     // Topics
@@ -263,14 +263,16 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/users/{id}/update', 'UsersController@update')->name('usersUpdate');
     Route::get('/users/destroy/{id}', 'UsersController@destroy')->name('usersDestroy');
     Route::post('/users/updateAll', 'UsersController@updateAll')->name('usersUpdateAll');
+    
 
     Route::get('/users/permissions/create/', 'UsersController@permissions_create')->name('permissionsCreate');
     Route::post('/users/permissions/store', 'UsersController@permissions_store')->name('permissionsStore');
     Route::get('/users/permissions/{id}/edit', 'UsersController@permissions_edit')->name('permissionsEdit');
     Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissionsUpdate');
     Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissionsDestroy');
+    //users main details
 
-
+    Route::get('/maindetails','MainController@index')->name('maindetails');
     // Menus
     Route::post('/menus/store/parent', 'MenusController@storeMenu')->name('parentMenusStore');
     Route::get('/menus/parent/{id}/edit', 'MenusController@editMenu')->name('parentMenusEdit');

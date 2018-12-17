@@ -19,9 +19,9 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="home-row-head">
-                                <h2 style="    font-weight:700;
-                                color: #76a08f;
-                                font-family: cursive;">
+                                <h2 style=" text-align:center;   font-weight:900;
+                                color: #186b49;
+                                font-family: sans-serif;">
                         Welcome to jax Auto Shipping site                            </h2>
                         </div>
                         <div class="row">
@@ -96,7 +96,7 @@
                                                                             class="fa fa-search-plus"></i></span>
                                                             </a> -->
                                                             <!-- Thumb Image and Description -->
-                                                            <img style="border-radius:0.8em;padding-top:10%;width:90%;height:900%" src="{{ URL::to('uploads/topics/'.$photo->file) }}"
+                                                            <img style="border-radius:4.8em;padding-top:10%;width:90%;height:900%" src="{{ URL::to('uploads/topics/'.$photo->file) }}"
                                                                  alt="{{ $title }}">
                                                         </div>
                                                     </div>

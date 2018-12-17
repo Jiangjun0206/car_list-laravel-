@@ -45,7 +45,7 @@ class ContainersController extends Controller
 
         // fixable part
         if (@Auth::user()->permissionsGroup->view_status) {
-            $Containers = Container::where('user_id', '=', Auth::user()->id)->orwhere('user_id', '=', Auth::user()->id)->orderby('car_id',
+            $Containers = Container::where('user', '=', Auth::user()->id)->orwhere('user', '=', Auth::user()->id)->orderby('id',
                 'asc')->paginate(env('BACKEND_PAGINATION'));
                 $Permissions = Permissions::where('created_by', '=', Auth::user()->id)->orderby('id', 'asc')->get();
             } else {
@@ -65,9 +65,10 @@ class ContainersController extends Controller
         // General for all pages
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
+        $Cars = Car::orderby('id' ,'asc')->get();
         $Users = User::orderby('id', 'asc')->get();
 
-        return view("backEnd.containers.create", compact("GeneralWebmasterSections", "Users"));
+        return view("backEnd.containers.create", compact("GeneralWebmasterSections", "Users","Cars"));
     }
 
     /**
@@ -81,12 +82,10 @@ class ContainersController extends Controller
         //
         $this->validate($request, [
             'image' => 'mimes:png,jpeg,jpg,gif|max:3000',
-            'vin' => 'required',
+            'number' => 'required',
             // 'status' => 'required|email|unique:users',
-            'terminal' => 'required',
-            'user_id' => 'required',
-            'vin' =>'required',
-            'description'=>'required',
+            'details' => 'required',
+            'shipping_line' => 'required',
             'status' =>'required'
 
         ]);
@@ -103,21 +102,18 @@ class ContainersController extends Controller
         }
         // End of Upload Files
        
-        $Car = new car;
-        $Car->vin = $request->vin;
-        $Car->description = $request->description;
-        $Car->destination = $request->destination;
-        $Car->user_id = $request->user_id;
-        $Car->title = $request->title;
-        $Car->key = $request->key;
-        $Car->price = $request->price;
-        $Car->status = $request->status;
-        $Car->terminal = $request->terminal;
-        $Car->image = $fileFinalName_ar;
-        $Car->delivery_data = $request->delivery_data;
-         $Car->save();
+        $Container = new container;
+        $Container->number = $request->number;
+        $Container->details = $request->details;
+        $Container->users = $request->user_id;
+        $Container->cars = $request->car_id;
+        $Container->shipping_line = $request->shipping_line;
+        $Container->dates = $request->dates;
+        $Container->status = $request->status;
+        $Container->image = $fileFinalName_ar;
+         $Container->save();
 
-        return redirect()->action('CarsController@index')->with('doneMessage', trans('backLang.addDone'));
+        return redirect()->action('ContainersController@index')->with('doneMessage', trans('backLang.addDone'));
     }
 
     public function getUploadPath()
@@ -143,15 +139,16 @@ class ContainersController extends Controller
         // $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
         $Users = User::orderby('id', 'asc')->get();
+        $Cars = Car::orderby('id','asc')->get();
          if (@Auth::user()->permissionsGroup->view_status) {
             $Users = User::where('created_by', '=', Auth::user()->id)->orwhere('id', '=', Auth::user()->id)->find($id);
         } else {
-            $Cars = Car::find($id);
+            $Containers = Container::find($id);
         }
-        if (count($Cars) > 0) {
-            return view("backEnd.cars.edit", compact("Cars", "Users", "GeneralWebmasterSections"));
+        if (count($Containers) > 0) {
+            return view("backEnd.containers.edit", compact("Containers", "Cars","Users", "GeneralWebmasterSections"));
         } else {
-            return redirect()->action('CarsController@index');
+            return redirect()->action('ContainersController@index');
         }
     }
 
@@ -165,17 +162,15 @@ class ContainersController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $Car = Car::find($id);
-        if (count($Car) > 0) {
+        $Container = Container::find($id);
+        if (count($Container) > 0) {
 
 
             $this->validate($request, [
                 'image' => 'mimes:png,jpeg,jpg,gif|max:3000',
-                'vin' => 'required',
-                'description' => 'required',
-                'terminal' => 'required',
-                'user_id' => 'required',
-                'vin' =>'required',
+                'number' => 'required',
+                'dates' => 'required',
+                'details' => 'required',     
                 'status' =>'required'
             ]);
 
@@ -191,43 +186,40 @@ class ContainersController extends Controller
             }
             // End of Upload Files
             //if ($id != 1) {
-                $Car->vin = $request->vin;
-                $Car->description = $request->description;
-                $Car->destination = $request->destination;
-                $Car->user_id = $request->user_id;
-                $Car->title = $request->title;
-                $Car->key = $request->key;
-                $Car->price = $request->price;
-                $Car->status = $request->status;
-                $Car->terminal = $request->terminal;
-                $Car->image = $fileFinalName_ar;
-                $Car->delivery_data = $request->delivery_data;
+                $Container->number = $request->number;
+                $Container->details = $request->details;
+                $Container->users = $request->user_id;
+                $Container->cars = $request->car_id;
+                $Container->shipping_line = $request->shipping_line;
+                $Container->dates = $request->dates;
+                $Container->status = $request->status;
+                $Container->image = $fileFinalName_ar;
               
                
             //}
             // if ($request->image_delete == 1) {
             //     // Delete a User file
-            //     if ($Car->image != "") {
-            //         File::delete($this->getUploadPath() . $Car->image);
+            //     if ($Container->image != "") {
+            //         File::delete($this->getUploadPath() . $Container->image);
             //     }
 
-            //     $Car->image = "";
+            //     $Container->image = "";
             // }
             // if ($fileFinalName_ar != "") {
             //     // Delete a User file
-            //     if ($Car->image != "") {
-            //         File::delete($this->getUploadPath() . $Car->image);
+            //     if ($Container->image != "") {
+            //         File::delete($this->getUploadPath() . $Container->image);
             //     }
 
-            //     $Car->image = $fileFinalName_ar;
+            //     $Container->image = $fileFinalName_ar;
             // }
 
-            $Car->image = $fileFinalName_ar;
+            // $Container->image = $fileFinalName_ar;
 
-            $Car->save();
-            return redirect()->action('CarsController@edit', $id)->with('doneMessage', trans('backLang.saveDone'));
+            $Container->save();
+            return redirect()->action('ContainersController@edit', $id)->with('doneMessage', trans('backLang.saveDone'));
         } else {
-            return redirect()->action('CarsController@index');
+            return redirect()->action('ContainersController@index');
         }
     }
 
@@ -243,18 +235,18 @@ class ContainersController extends Controller
         if (@Auth::user()->permissionsGroup->view_status) {
             $User = User::where('created_by', '=', Auth::user()->id)->find($id);
         } else {
-            $Car = Car::find($id);
+            $Container = Container::find($id);
         }
-        if (count($Car) > 0 && $id != 1) {
+        if (count($Container) > 0 && $id != 1) {
             // Delete a User photo
-            if ($Car->image != "") {
-                File::delete($this->getUploadPath() . $Car->image);
+            if ($Container->image != "") {
+                File::delete($this->getUploadPath() . $Container->image);
             }
 
-            $Car->delete();
-            return redirect()->action('CarsController@index')->with('doneMessage', trans('backLang.deleteDone'));
+            $Container->delete();
+            return redirect()->action('ContainersController@index')->with('doneMessage', trans('backLang.deleteDone'));
         } else {
-            return redirect()->action('CarsController@index');
+            return redirect()->action('ContainersController@index');
         }
     }
 

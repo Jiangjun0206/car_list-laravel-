@@ -55,6 +55,7 @@
                                     <input id="checkAll" type="checkbox"><i></i>
                                 </label>
                             </th>
+                            <td>Image</td>
                             <th>Number</th>
                             <th>Details</th>
                             <th>Shipping line</th>
@@ -69,11 +70,13 @@
                         @foreach($Containers as $Container)
                             <tr>
                                 <td><label class="ui-check m-a-0">
-                                        <input type="checkbox" name="ids[]" value="{{ $Container->car_id }}"><i
+                                        <input type="checkbox" name="ids[]" value="{{ $Container->id }}"><i
                                                 class="dark-white"></i>
                                         {!! Form::hidden('row_ids[]',$Container->id, array('class' => 'form-control row_no')) !!}
                                     </label>
                                 </td>
+                                <td><img src="/uploads/containers/{!! $Container->image  !!}" alt="" width="50px" height="40px" style="border-radius:1em"></td>
+
                                 <td>
                                  
                                         {!! $Container->number   !!}
@@ -118,7 +121,7 @@
                                 </td>
                             </tr>
                             <!-- .modal -->
-                            <div id="m-{{ $Car->id }}" class="modal fade" data-backdrop="true">
+                            <div id="m-{{ $Container->id }}" class="modal fade" data-backdrop="true">
                                 <div class="modal-dialog" id="animate">
                                     <div class="modal-content">
                                         <div class="modal-header">

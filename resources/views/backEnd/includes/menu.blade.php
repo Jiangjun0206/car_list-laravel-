@@ -21,10 +21,15 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
             <nav class="scroll nav-active-primary">
 
                 <ul class="nav" ui-nav>
+                @if(@Auth::user()->permissionsGroup->analytics_status)
                 <li class=""><a style="font-size:16px" href="{{ route('users') }}"><span class="nav-icon"><i class="material-icons fa fa-user"></i></span><span style="padding-top:7%" class="nav-text"> Users</span></a></li>
                 <li class=""><a style="font-size:16px" href="{{ route('cars') }}"><span class="nav-icon"><i class="material-icons fa fa-car"></i></span><span style="padding-top:7%" class="nav-text"> Cars</span></a></li>
                 <li class=""><a style="font-size:16px" href="{{route('containers')}}"><span class="nav-icon"><i class="material-icons fa fa-bank"></i></span><span style="padding-top:7%" class="nav-text"> Containers</span></a></li>
-                
+                @endif
+                @if(!@Auth::user()->permissionsGroup->analytics_status)
+                <li class=""><a style="font-size:16px" href="{{ route('users') }}"><span class="nav-icon"><i class="material-icons fa fa-user icc"></i></span><span style="padding-top:%" class="nav-text"> My Profile</span></a></li>
+                <li class=""><a style="font-size:16px" id="main_detail" href="{{ route('maindetails') }}"><span class="nav-icon"><i class="material-icons fa fa-cogs icc"></i></span><span style="padding-top:7%" class="nav-text">Main Details</span></a></li>
+                @endif
                 <!-- <li>
                     <a><span class="nav-caret"><i class="fa fa-caret-down"></i></span>
                         <span class="nav-icon"><i class="fa fa-car"></i></span><span class="nav-text">Cars</span>
@@ -72,3 +77,6 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
         </div>
     </div>
 </div>
+<script>
+
+</script>
